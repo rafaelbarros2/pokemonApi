@@ -2,6 +2,7 @@ package pokemon.api.crud.dto;
 
 import lombok.Data;
 import pokemon.api.crud.model.NextEvolution;
+import pokemon.api.crud.model.Pokemon;
 import pokemon.api.crud.model.PreEvolution;
 import pokemon.api.crud.model.Type;
 
@@ -21,9 +22,18 @@ public class PokemonDTO implements Serializable {
 
     private String name;
 
-   private List<TypeDTO> type;
+   private Set<Type> type;
 
-    private List<NextEvolutionDTO> nextEvolutions;
+    private List<NextEvolution> nextEvolutions;
 
-    private List<PreEvolutionDTO> preEvolutions;
+    private List<PreEvolution> preEvolutions;
+
+    public PokemonDTO(Pokemon pokemon) {
+        this.id = pokemon.getId();
+        this.num = pokemon.getNum();
+        this.name = pokemon.getName();
+        this.type = pokemon.getType();
+        this.nextEvolutions = pokemon.getNextEvolutions();
+        this.preEvolutions = pokemon.getPreEvolutions();
+    }
 }

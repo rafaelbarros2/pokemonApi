@@ -8,6 +8,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
 @Data
 public class Pokemon implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -29,5 +30,6 @@ public class Pokemon implements Serializable {
     @OneToMany
     private List<NextEvolution> nextEvolutions;
 
+    @OneToMany
     private List<PreEvolution> preEvolutions;
 }
