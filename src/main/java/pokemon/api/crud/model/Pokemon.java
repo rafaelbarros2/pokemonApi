@@ -1,15 +1,15 @@
 package pokemon.api.crud.model;
 
 import lombok.Data;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Data
+@Table(name = "pokemon")
 public class Pokemon implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -21,15 +21,12 @@ public class Pokemon implements Serializable {
 
     private String name;
 
-    @ManyToMany
-    @JoinTable(name = "tb_pokemon_type",
-            joinColumns = @JoinColumn(name = "pokemon_id"),
-            inverseJoinColumns = @JoinColumn(name = "type_id"))
-    Set<Type> type = new HashSet<>();
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "pokemon")
+    private List<Type> type;
 
-    @OneToMany
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "pokemon")
     private List<NextEvolution> nextEvolutions;
 
-    @OneToMany
+    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "pokemon")
     private List<PreEvolution> preEvolutions;
 }

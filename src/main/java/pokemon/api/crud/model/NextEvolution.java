@@ -1,12 +1,11 @@
 package pokemon.api.crud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,5 +17,11 @@ public class NextEvolution implements Serializable {
     private Long id;
 
     private String name;
+
+    @ManyToOne
+    @JoinColumn(name = "pokemon_id")
+    @JsonIgnore
+    private Pokemon pokemon;
+
 }
 

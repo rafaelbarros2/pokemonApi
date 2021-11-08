@@ -22,7 +22,7 @@ public class PokemonDTO implements Serializable {
 
     private String name;
 
-   private Set<Type> type;
+   private List<Type> type;
 
     private List<NextEvolution> nextEvolutions;
 
@@ -35,5 +35,8 @@ public class PokemonDTO implements Serializable {
         this.type = pokemon.getType();
         this.nextEvolutions = pokemon.getNextEvolutions();
         this.preEvolutions = pokemon.getPreEvolutions();
+    }
+
+    public PokemonDTO() {
     }
 }

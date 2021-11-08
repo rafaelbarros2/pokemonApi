@@ -1,5 +1,7 @@
 package pokemon.api.crud.services;
 
+import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +17,7 @@ import java.util.Optional;
 @Service
 public class PokemonService {
 
+
     @Autowired
     private PokemonRepository pokemonRepository;
 
@@ -29,5 +32,17 @@ public class PokemonService {
         Optional<Pokemon> obj = pokemonRepository.findById(id);
         Pokemon entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
         return new PokemonDTO(entity);
+    }
+
+    public PokemonDTO insert(PokemonDTO dto) {
+        Pokemon entity = new Pokemon();
+        entity.setName(dto.getName());
+        entity.setPreEvolutions(dto.getPreEvolutions());
+        entity.setType(dto.getType());
+        entity.setNum(dto.getNum());
+        entity.setNextEvolutions(dto.getNextEvolutions());
+        entity = pokemonRepository.saveAndFlush(entity);
+        return new PokemonDTO(entity);
+
     }
 }
