@@ -8,6 +8,9 @@ import org.springframework.transaction.annotation.Transactional;
 import pokemon.api.crud.dto.PokemonDTO;
 import pokemon.api.crud.model.Pokemon;
 import pokemon.api.crud.repositories.PokemonRepository;
+import pokemon.api.crud.services.exceptions.ResourceNotFoundException;
+
+import java.util.Optional;
 
 @Service
 public class PokemonService {
@@ -19,5 +22,12 @@ public class PokemonService {
     public Page<PokemonDTO> findAllPaged(Pageable pageable) {
         Page<Pokemon> list = pokemonRepository.findAll(pageable);
         return list.map(x -> new PokemonDTO(x));
+    }
+
+    @Transactional(readOnly = true)
+    public PokemonDTO findById(Long id) {
+        Optional<Pokemon> obj = pokemonRepository.findById(id);
+        Pokemon entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        return new PokemonDTO(entity);
     }
 }
