@@ -1,5 +1,6 @@
 package pokemon.api.crud.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.Cascade;
 
@@ -17,16 +18,18 @@ public class Pokemon implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true)
     private String num;
 
+    @Column(unique = true)
     private String name;
 
-    @OneToMany(cascade = { CascadeType.ALL })
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     private List<Type> type;
 
-    @OneToMany(cascade = { CascadeType.ALL })
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     private List<NextEvolution> nextEvolutions;
 
-    @OneToMany(cascade = { CascadeType.ALL })
+    @OneToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     private List<PreEvolution> preEvolutions;
 }

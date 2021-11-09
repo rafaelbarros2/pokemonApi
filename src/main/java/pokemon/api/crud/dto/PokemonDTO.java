@@ -1,5 +1,6 @@
 package pokemon.api.crud.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import pokemon.api.crud.model.NextEvolution;
 import pokemon.api.crud.model.Pokemon;
@@ -16,6 +17,7 @@ import java.util.Set;
 public class PokemonDTO implements Serializable {
     private static final long serialVersionUID = 1L;
 
+    @JsonIgnore
     private Long id;
 
     private String num;

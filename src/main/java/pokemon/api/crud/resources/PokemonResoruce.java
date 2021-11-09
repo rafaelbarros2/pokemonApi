@@ -25,9 +25,9 @@ public class PokemonResoruce {
         return ResponseEntity.ok().body(list);
     }
 
-    @GetMapping(value = "/{id}")
-    public ResponseEntity<PokemonDTO> findById(@PathVariable Long id) {
-        PokemonDTO dto = service.findById(id);
+    @GetMapping(value = "/{num}")
+    public ResponseEntity<PokemonDTO> findByNum(@PathVariable String num) {
+        PokemonDTO dto = service.findByNum(num);
         return ResponseEntity.ok().body(dto);
     }
 
@@ -39,9 +39,9 @@ public class PokemonResoruce {
         return ResponseEntity.created(uri).body(dto);
     }
 
-    @PutMapping(value = "/{id}")
-    public ResponseEntity<PokemonDTO> update(@PathVariable Long id, @RequestBody PokemonDTO dto) {
-        dto = service.update(id, dto);
+    @PutMapping(value = "/{num}")
+    public ResponseEntity<PokemonDTO> update(@PathVariable String num, @RequestBody PokemonDTO dto) {
+        dto = service.update(num, dto);
         return ResponseEntity.ok().body(dto);
     }
 

@@ -16,14 +16,11 @@ public class Type implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonIgnore
     private Long id;
 
+    @Column(unique = true)
     private String name;
 
-
-    @ManyToOne
-    @JoinColumn(name = "pokemon_id")
-    @JsonIgnore
-    private Pokemon pokemon;
 
 }
