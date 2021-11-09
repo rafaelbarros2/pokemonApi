@@ -1,21 +1,23 @@
 package pokemon.api.crud.services;
 
 import org.dozer.DozerBeanMapper;
+import org.dozer.Mapper;
+import org.hibernate.JDBCException;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pokemon.api.crud.dto.PokemonDTO;
 import pokemon.api.crud.model.Pokemon;
-import pokemon.api.crud.model.Type;
 import pokemon.api.crud.repositories.PokemonRepository;
 import pokemon.api.crud.services.exceptions.DatabaseException;
 import pokemon.api.crud.services.exceptions.ResourceNotFoundException;
 
-import javax.persistence.EntityNotFoundException;
-import java.util.*;
+import java.util.Optional;
 
 @Service
 public class PokemonService {
@@ -26,8 +28,9 @@ public class PokemonService {
 
     @Transactional(readOnly = true)
     public Page<PokemonDTO> findAllPaged(Pageable pageable) {
+        Mapper mapper = new  DozerBeanMapper();
         Page<Pokemon> list = pokemonRepository.findAll(pageable);
-        return list.map(x -> new PokemonDTO(x));
+        return list.map(x -> mapper.map(x , PokemonDTO.class));
     }
 
     @Transactional(readOnly = true)
@@ -49,7 +52,7 @@ public class PokemonService {
             entity.setNextEvolutions(dto.getNextEvolutions());
             entity = pokemonRepository.saveAndFlush(entity);
             return new PokemonDTO(entity);
-        }catch (ConstraintViolationException e){
+        }catch (DataIntegrityViolationException e){
             throw new DatabaseException("Esse Pokemon já existe");
         }
 
@@ -72,5 +75,13 @@ public class PokemonService {
             throw new ResourceNotFoundException("Num not found " + num);
         }
     }
-
+    public void delete(String num) {
+        Optional<Pokemon> pokemon = pokemonRepository.findPokemonByNum(num);
+        if( pokemon.isPresent()){
+            pokemonRepository.deleteById(pokemon.get().getId());
+        }
+        else {
+            throw new ResourceNotFoundException("Num not found " + num);
+        }
+    }
 }

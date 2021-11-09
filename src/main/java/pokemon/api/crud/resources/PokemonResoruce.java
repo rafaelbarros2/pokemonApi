@@ -45,4 +45,9 @@ public class PokemonResoruce {
         return ResponseEntity.ok().body(dto);
     }
 
+    @DeleteMapping(value = "/{num}")
+    public ResponseEntity<Void> delete(@PathVariable String num) {
+        service.delete(num);
+        return ResponseEntity.noContent().build();
+    }
 }
