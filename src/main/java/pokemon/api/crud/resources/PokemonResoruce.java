@@ -39,4 +39,10 @@ public class PokemonResoruce {
         return ResponseEntity.created(uri).body(dto);
     }
 
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<PokemonDTO> update(@PathVariable Long id, @RequestBody PokemonDTO dto) {
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
+    }
+
 }

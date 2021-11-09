@@ -21,12 +21,12 @@ public class Pokemon implements Serializable {
 
     private String name;
 
-    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "pokemon")
+    @OneToMany(cascade = { CascadeType.ALL })
     private List<Type> type;
 
-    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "pokemon")
+    @OneToMany(cascade = { CascadeType.ALL })
     private List<NextEvolution> nextEvolutions;
 
-    @OneToMany(cascade = { CascadeType.ALL }, orphanRemoval = true, mappedBy = "pokemon")
+    @OneToMany(cascade = { CascadeType.ALL })
     private List<PreEvolution> preEvolutions;
 }
