@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pokemon.api.crud.dto.PokemonDTO;
 import pokemon.api.crud.model.Pokemon;
+import pokemon.api.crud.model.Type;
 import pokemon.api.crud.repositories.PokemonRepository;
+import pokemon.api.crud.repositories.TypeRepository;
 import pokemon.api.crud.services.exceptions.DatabaseException;
 import pokemon.api.crud.services.exceptions.ResourceNotFoundException;
 
@@ -25,6 +27,9 @@ public class PokemonService {
 
     @Autowired
     private PokemonRepository pokemonRepository;
+
+    @Autowired
+    private TypeRepository typeRepository;
 
     @Transactional(readOnly = true)
     public Page<PokemonDTO> findAllPaged(Pageable pageable) {
@@ -40,6 +45,15 @@ public class PokemonService {
         DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
        return dozerBeanMapper.map(entity, PokemonDTO.class);
 
+    }
+
+    @Transactional(readOnly = true)
+    public PokemonDTO findPokemonByTipo(String type) {
+        Optional<Type> typeObj = typeRepository.findByNameIgnoreCase(type);
+        Optional<Pokemon> obj = pokemonRepository.findPokemonByType(typeObj.get());
+        Pokemon entity = obj.orElseThrow(() -> new ResourceNotFoundException("Entity not found"));
+        DozerBeanMapper dozerBeanMapper = new DozerBeanMapper();
+        return dozerBeanMapper.map(entity, PokemonDTO.class);
     }
 
     public PokemonDTO insert(PokemonDTO dto) {

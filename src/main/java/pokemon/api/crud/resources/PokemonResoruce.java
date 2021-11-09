@@ -31,6 +31,12 @@ public class PokemonResoruce {
         return ResponseEntity.ok().body(dto);
     }
 
+    @GetMapping(value = "/type/{type}")
+    public ResponseEntity<PokemonDTO> findBytype(@PathVariable String type) {
+        PokemonDTO dto = service.findPokemonByTipo(type);
+        return ResponseEntity.ok().body(dto);
+    }
+
     @PostMapping
     public ResponseEntity<PokemonDTO> insert(@RequestBody PokemonDTO dto) {
         dto = service.insert(dto);
